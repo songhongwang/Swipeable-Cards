@@ -10,6 +10,6 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:childMargin="40"
+        app:childMargin="120"
         app:orientation="ordered"/>
 </LinearLayout>

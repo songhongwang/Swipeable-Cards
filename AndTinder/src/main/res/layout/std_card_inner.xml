@@ -11,6 +11,7 @@
         style="@android:style/TextAppearance.Large.Inverse"
         android:textColor="@android:color/primary_text_light"
         android:textSize="24sp"
+        android:visibility="gone"
         android:textStyle="bold"
         android:fontFamily="sans-serif-condensed"
         android:layout_width="fill_parent"
@@ -24,6 +25,7 @@
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:layout_below="@id/title"
+        android:visibility="gone"
         android:background="@color/card_outline"
         />
 
