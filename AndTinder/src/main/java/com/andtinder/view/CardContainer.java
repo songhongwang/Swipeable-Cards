@@ -69,6 +69,8 @@ public class CardContainer extends AdapterView<ListAdapter> {
     private int mNextAdapterPosition;
     private boolean mDragging;
 
+    private int childMargin;
+
     public CardContainer(Context context) {
         super(context);
 
@@ -104,6 +106,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
 
         setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
         int orientation = a.getInteger(R.styleable.CardContainer_orientation, 1);
+        childMargin = a.getInteger(R.styleable.CardContainer_childMargin,40);
         setOrientation(Orientation.fromIndex(orientation));
 
         a.recycle();
@@ -192,7 +195,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int requestedWidth = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
-        int requestedHeight = getMeasuredHeight() - getPaddingTop() - getPaddingBottom();
+        int requestedHeight = getMeasuredHeight() -  getPaddingTop() - getPaddingBottom();
         int childWidth, childHeight;
 
         if (mOrientation == Orientation.Disordered) {
@@ -218,7 +221,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             assert child != null;
-            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+            child.measure(childWidthMeasureSpec - childMargin, childHeightMeasureSpec);
         }
     }
 

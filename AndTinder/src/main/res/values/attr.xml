@@ -6,5 +6,6 @@
             <enum name="ordered" value="0"/>
             <enum name="disordered" value="1"/>
         </attr>
+        <attr name="childMargin" format="integer" />
     </declare-styleable>
 </resources>
