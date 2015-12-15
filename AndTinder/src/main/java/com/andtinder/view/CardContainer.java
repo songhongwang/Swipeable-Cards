@@ -428,9 +428,9 @@ public class CardContainer extends AdapterView<ListAdapter> {
             Log.d("Fling", "Fling with " + velocityX + ", " + velocityY);
             final View topCard = mTopCard;
             float dx = e2.getX() - e1.getX();
-            if (Math.abs(dx) > mTouchSlop &&
-                    Math.abs(velocityX) > Math.abs(velocityY) &&
-                    Math.abs(velocityX) > mFlingSlop * 3) {
+            float dy = e2.getY() - e1.getY();
+            if ((Math.abs(dx) > mTouchSlop || Math.abs(dy) > mTouchSlop) &&
+                    (Math.abs(velocityX) > mFlingSlop * 3 || Math.abs(velocityY) > mFlingSlop * 3)) {
                 float targetX = topCard.getX();
                 float targetY = topCard.getY();
                 long duration = 0;
