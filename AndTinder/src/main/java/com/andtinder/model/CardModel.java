@@ -17,21 +17,14 @@
 
 package com.andtinder.model;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 public class CardModel {
 
-	private String   title;
 	private String   description;
 	private Drawable cardImageDrawable;
-	private Drawable cardLikeImageDrawable;
-	private Drawable cardDislikeImageDrawable;
 
     private OnCardDismissedListener mOnCardDismissedListener = null;
-
     private OnClickListener mOnClickListener = null;
 
     public interface OnCardDismissedListener {
@@ -43,28 +36,9 @@ public class CardModel {
         void OnClickListener();
     }
 
-	public CardModel() {
-		this(null, null, (Drawable)null);
-	}
-
-	public CardModel(String title, String description, Drawable cardImage) {
-		this.title = title;
+	public CardModel( String description, Drawable cardImage) {
 		this.description = description;
 		this.cardImageDrawable = cardImage;
-	}
-
-	public CardModel(String title, String description, Bitmap cardImage) {
-		this.title = title;
-		this.description = description;
-		this.cardImageDrawable = new BitmapDrawable(null, cardImage);
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	public String getDescription() {
@@ -79,25 +53,6 @@ public class CardModel {
 		return cardImageDrawable;
 	}
 
-	public void setCardImageDrawable(Drawable cardImageDrawable) {
-		this.cardImageDrawable = cardImageDrawable;
-	}
-
-	public Drawable getCardLikeImageDrawable() {
-		return cardLikeImageDrawable;
-	}
-
-	public void setCardLikeImageDrawable(Drawable cardLikeImageDrawable) {
-		this.cardLikeImageDrawable = cardLikeImageDrawable;
-	}
-
-	public Drawable getCardDislikeImageDrawable() {
-		return cardDislikeImageDrawable;
-	}
-
-	public void setCardDislikeImageDrawable(Drawable cardDislikeImageDrawable) {
-		this.cardDislikeImageDrawable = cardDislikeImageDrawable;
-	}
 
     public void setOnCardDismissedListener( OnCardDismissedListener listener ) {
         this.mOnCardDismissedListener = listener;

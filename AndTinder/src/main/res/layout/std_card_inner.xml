@@ -6,34 +6,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/title"
-        style="@android:style/TextAppearance.Large.Inverse"
-        android:textColor="@android:color/primary_text_light"
-        android:textSize="24sp"
-        android:visibility="gone"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/card_bg"
-        tools:text="Title"
-        android:padding="10dp"/>
-
-    <View
-        android:id="@+id/divider_title"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/title"
-        android:visibility="gone"
-        android:background="@color/card_outline"
-        />
-
     <ImageView
         android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider_title"
         android:layout_alignWithParentIfMissing="true"
         android:scaleType="centerCrop"
         tools:src="@drawable/picture1"/>
