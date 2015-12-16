@@ -34,7 +34,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
     public static final int INVALID_POINTER_ID = -1;
     private int mActivePointerId = INVALID_POINTER_ID;
     private static final double DISORDERED_MAX_ROTATION_RADIANS = Math.PI / 64;
-    private int mNumberOfCards = -1;
     private final DataSetObserver mDataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
@@ -70,6 +69,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
     private boolean mDragging;
 
     private int childMargin;
+    private int ladder = 6; //每个子view的差值
 
     public CardContainer(Context context) {
         super(context);
@@ -134,7 +134,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
             mTopCard = getChildAt(getChildCount() - 1);
             mTopCard.setLayerType(LAYER_TYPE_HARDWARE, null);
         }
-        mNumberOfCards = getAdapter().getCount();
         requestLayout();
     }
 
@@ -221,13 +220,14 @@ public class CardContainer extends AdapterView<ListAdapter> {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
             assert child != null;
-            child.measure(childWidthMeasureSpec - childMargin, childHeightMeasureSpec);
+            // 子view的宽度依次变大
+            child.measure(childWidthMeasureSpec - childMargin +i*ladder, childHeightMeasureSpec);
         }
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
+//        super.onLayout(changed, l, t, r, b);
 
         for (int i = 0; i < getChildCount(); i++) {
             boundsRect.set(0, 0, getWidth(), getHeight());
@@ -237,8 +237,9 @@ public class CardContainer extends AdapterView<ListAdapter> {
             w = view.getMeasuredWidth();
             h = view.getMeasuredHeight();
 
-            Gravity.apply(mGravity, w, h, boundsRect, childRect);
-            view.layout(childRect.left, childRect.top, childRect.right, childRect.bottom);
+            Gravity.apply(mGravity, w , h, boundsRect, childRect);
+            // 子view依次向下错位排列
+            view.layout(childRect.left, childRect.top +i*ladder, childRect.right, childRect.bottom +i*ladder);
         }
     }
 

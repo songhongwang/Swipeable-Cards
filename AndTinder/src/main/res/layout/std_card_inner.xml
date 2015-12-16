@@ -4,30 +4,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#FFF">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignWithParentIfMissing="true"
         android:scaleType="centerCrop"
-        tools:src="@drawable/picture1"/>
+        android:background="#F00"
+        android:src="@drawable/picture1"/>
 
-    <View
-        android:id="@+id/divider_bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/image"
-        android:background="@color/card_outline" />
-
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="10dp"
-        android:layout_alignBottom="@+id/image_1"
-        android:layout_below="@+id/divider_bottom"
-        android:background="@color/card_bg"
-        />
 
     <TextView
         android:id="@+id/description"
