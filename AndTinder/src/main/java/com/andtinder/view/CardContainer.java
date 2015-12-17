@@ -227,7 +227,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-//        super.onLayout(changed, l, t, r, b);
+        super.onLayout(changed, l, t, r, b);
 
         for (int i = 0; i < getChildCount(); i++) {
             boundsRect.set(0, 0, getWidth(), getHeight());

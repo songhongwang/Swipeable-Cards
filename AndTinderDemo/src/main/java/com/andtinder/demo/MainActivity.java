@@ -55,9 +55,8 @@ public class MainActivity extends Activity {
 		adapter.add(new CardModel("Description goes here6", r.getDrawable(R.drawable.picture3)));
 		adapter.add(new CardModel("Description goes here7", r.getDrawable(R.drawable.picture1)));
 		adapter.add(new CardModel("Description goes here8", r.getDrawable(R.drawable.picture2)));
-		adapter.add(new CardModel("Description goes here9", r.getDrawable(R.drawable.picture3)));
 
-        CardModel cardModel = new CardModel("Description goes here", r.getDrawable(R.drawable.picture1));
+        CardModel cardModel = new CardModel("Description goes here9", r.getDrawable(R.drawable.picture3));
         cardModel.setOnClickListener(new CardModel.OnClickListener() {
            @Override
            public void OnClickListener() {
