@@ -26,7 +26,6 @@ import android.widget.ListAdapter;
 
 import com.andtinder.R;
 import com.andtinder.model.CardModel;
-import com.andtinder.model.Orientations.Orientation;
 
 import java.util.Random;
 
@@ -58,7 +57,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
     private int mMaxVisible = 10;
     private GestureDetector mGestureDetector;
     private int mFlingSlop;
-    private Orientation mOrientation;
     private ListAdapter mListAdapter;
     private float mLastTouchX;
     private float mLastTouchY;
@@ -74,7 +72,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
     public CardContainer(Context context) {
         super(context);
 
-        setOrientation(Orientation.Disordered);
         setGravity(Gravity.CENTER);
         init();
 
@@ -85,7 +82,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
         initFromXml(attrs);
         init();
     }
-
 
     public CardContainer(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -101,13 +97,10 @@ public class CardContainer extends AdapterView<ListAdapter> {
     }
 
     private void initFromXml(AttributeSet attr) {
-        TypedArray a = getContext().obtainStyledAttributes(attr,
-                R.styleable.CardContainer);
+        TypedArray a = getContext().obtainStyledAttributes(attr, R.styleable.CardContainer);
 
         setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
-        int orientation = a.getInteger(R.styleable.CardContainer_orientation, 1);
         childMargin = a.getInteger(R.styleable.CardContainer_childMargin,40);
-        setOrientation(Orientation.fromIndex(orientation));
 
         a.recycle();
     }
@@ -141,9 +134,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
         while (mNextAdapterPosition < mListAdapter.getCount() && getChildCount() < mMaxVisible) {
             View view = mListAdapter.getView(mNextAdapterPosition, null, this);
             view.setLayerType(LAYER_TYPE_SOFTWARE, null);
-            if(mOrientation == Orientation.Disordered) {
-                view.setRotation(getDisorderedRotation());
-            }
+
             addViewInLayout(view, 0, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
                     mListAdapter.getItemViewType(mNextAdapterPosition)), false);
 
@@ -159,32 +150,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
         mTopCard = null;
     }
 
-    public Orientation getOrientation() {
-        return mOrientation;
-    }
-
-    public void setOrientation(Orientation orientation) {
-        if (orientation == null)
-            throw new NullPointerException("Orientation may not be null");
-        if(mOrientation != orientation) {
-            this.mOrientation = orientation;
-            if(orientation == Orientation.Disordered) {
-                for (int i = 0; i < getChildCount(); i++) {
-                    View child = getChildAt(i);
-                    child.setRotation(getDisorderedRotation());
-                }
-            }
-            else {
-                for (int i = 0; i < getChildCount(); i++) {
-                    View child = getChildAt(i);
-                    child.setRotation(0);
-                }
-            }
-            requestLayout();
-        }
-
-    }
-
     private float getDisorderedRotation() {
         return (float) Math.toDegrees(mRandom.nextGaussian() * DISORDERED_MAX_ROTATION_RADIANS);
     }
@@ -197,21 +162,8 @@ public class CardContainer extends AdapterView<ListAdapter> {
         int requestedHeight = getMeasuredHeight() -  getPaddingTop() - getPaddingBottom();
         int childWidth, childHeight;
 
-        if (mOrientation == Orientation.Disordered) {
-            int R1, R2;
-            if (requestedWidth >= requestedHeight) {
-                R1 = requestedHeight;
-                R2 = requestedWidth;
-            } else {
-                R1 = requestedWidth;
-                R2 = requestedHeight;
-            }
-            childWidth = (int) ((R1 * Math.cos(DISORDERED_MAX_ROTATION_RADIANS) - R2 * Math.sin(DISORDERED_MAX_ROTATION_RADIANS)) / Math.cos(2 * DISORDERED_MAX_ROTATION_RADIANS));
-            childHeight = (int) ((R2 * Math.cos(DISORDERED_MAX_ROTATION_RADIANS) - R1 * Math.sin(DISORDERED_MAX_ROTATION_RADIANS)) / Math.cos(2 * DISORDERED_MAX_ROTATION_RADIANS));
-        } else {
-            childWidth = requestedWidth;
-            childHeight = requestedHeight;
-        }
+        childWidth = requestedWidth;
+        childHeight = requestedHeight;
 
         int childWidthMeasureSpec, childHeightMeasureSpec;
         childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.AT_MOST);
@@ -298,7 +250,9 @@ public class CardContainer extends AdapterView<ListAdapter> {
                 mTopCard.setTranslationX(mTopCard.getTranslationX() + dx);
                 mTopCard.setTranslationY(mTopCard.getTranslationY() + dy);
 
-                mTopCard.setRotation(40 * mTopCard.getTranslationX() / (getWidth() / 2.f));
+                //todo 触摸点(x,y)，摆动动画
+//                mTopCard.setRotation(40 * mTopCard.getTranslationX() / (getWidth() / 2.f));
+                mTopCard.setRotation(getDisorderedRotation());
 
                 mLastTouchX = x;
                 mLastTouchY = y;
@@ -348,7 +302,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
         }
         final int pointerIndex;
         final float x, y;
-        final float dx, dy;
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 mTopCard.getHitRect(childRect);
@@ -464,6 +417,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
                     }
                 }
 
+                // 移除card 动画
                 topCard.animate()
                         .setDuration(duration)
                         .alpha(.75f)
