@@ -200,7 +200,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
         if (mTopCard == null) {
             return false;
         }
-        if (mGestureDetector.onTouchEvent(event)) {
+        if (mGestureDetector.onTouchEvent(event)) { //GestureDetector中拦截的手势就不再处理，标记为已消费
             return true;
         }
         Log.d("Touch Event", MotionEvent.actionToString(event.getActionMasked()) + " ");
@@ -209,18 +209,18 @@ public class CardContainer extends AdapterView<ListAdapter> {
         final float dx, dy;
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                mTopCard.getHitRect(childRect);
+                mTopCard.getHitRect(childRect); // 获取卡片所在区域的矩阵
 
-                pointerIndex = event.getActionIndex();
-                x = event.getX(pointerIndex);
-                y = event.getY(pointerIndex);
+                pointerIndex = event.getActionIndex(); //触控点的索引
+                x = event.getX(pointerIndex); //触控点的x值
+                y = event.getY(pointerIndex); //触控点y值
 
-                if (!childRect.contains((int) x, (int) y)) {
+                if (!childRect.contains((int) x, (int) y)) { //判断当前点击的点是否在卡片矩阵范围中
                     return false;
                 }
                 mLastTouchX = x;
                 mLastTouchY = y;
-                mActivePointerId = event.getPointerId(pointerIndex);
+                mActivePointerId = event.getPointerId(pointerIndex); //触控点的索引id
 
 
                 float[] points = new float[]{x - mTopCard.getLeft(), y - mTopCard.getTop()};

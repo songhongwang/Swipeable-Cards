@@ -3,6 +3,7 @@ package com.andtinder.view;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
 import com.andtinder.R;
@@ -11,7 +12,7 @@ import com.andtinder.model.CardModel;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class CardStackAdapter extends BaseCardStackAdapter {
+public abstract class CardStackAdapter extends BaseAdapter {
 	private final Context mContext;
 
 	/**
