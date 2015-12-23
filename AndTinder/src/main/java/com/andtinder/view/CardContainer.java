@@ -252,7 +252,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
 
                 //todo 触摸点(x,y)，摆动动画
 //                mTopCard.setRotation(40 * mTopCard.getTranslationX() / (getWidth() / 2.f));
-                mTopCard.setRotation(getDisorderedRotation());
+//                mTopCard.setRotation(getDisorderedRotation());
 
                 mLastTouchX = x;
                 mLastTouchY = y;

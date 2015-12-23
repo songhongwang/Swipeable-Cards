@@ -4,24 +4,62 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andtinder.R;
 import com.andtinder.model.CardModel;
 
-public final class SimpleCardStackAdapter extends CardStackAdapter {
+import java.util.ArrayList;
 
-	public SimpleCardStackAdapter(Context mContext) {
-		super(mContext);
+public class SimpleCardStackAdapter extends BaseAdapter {
+	private Context mContext;
+
+	private final Object mLock = new Object();
+	private ArrayList<CardModel> mDataList;
+
+	public SimpleCardStackAdapter(Context context) {
+		mContext = context;
+		mDataList = new ArrayList<>();
+	}
+
+	public void add(CardModel item) {
+		synchronized (mLock) {
+			mDataList.add(item);
+		}
+		notifyDataSetChanged();
+	}
+
+
+	@Override
+	public Object getItem(int position) {
+		return getCardModel(position);
+	}
+
+	public CardModel getCardModel(int position) {
+		synchronized (mLock) {
+			return mDataList.get(mDataList.size() - 1 - position);
+		}
 	}
 
 	@Override
-	public View getCardView(int position, CardModel model, View convertView, ViewGroup parent) {
+	public int getCount() {
+		return mDataList.size();
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return getItem(position).hashCode();
+	}
+
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		CardModel model = mDataList.get(position);
+
 		if(convertView == null) {
-			LayoutInflater inflater = LayoutInflater.from(getContext());
-			convertView = inflater.inflate(R.layout.std_card_inner, parent, false);
-			assert convertView != null;
+			convertView = LayoutInflater.from(mContext).inflate(R.layout.std_card_inner, parent, false);
 		}
 
 		((ImageView) convertView.findViewById(R.id.image)).setImageDrawable(model.getCardImageDrawable());
@@ -29,4 +67,6 @@ public final class SimpleCardStackAdapter extends CardStackAdapter {
 
 		return convertView;
 	}
+
+
 }
