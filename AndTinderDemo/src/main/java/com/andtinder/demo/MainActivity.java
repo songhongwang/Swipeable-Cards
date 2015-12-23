@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 
     /**
      * This variable is the container that will host our cards
-     * dev g
+     * dev 分支修复bug
      */
 	private CardContainer mCardContainer;
 	
