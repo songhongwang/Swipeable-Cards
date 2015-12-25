@@ -13,13 +13,13 @@ import com.andtinder.model.CardModel;
 
 import java.util.ArrayList;
 
-public class SimpleCardStackAdapter extends BaseAdapter {
+public class CardAdapter extends BaseAdapter {
 	private Context mContext;
 
 	private final Object mLock = new Object();
 	private ArrayList<CardModel> mDataList;
 
-	public SimpleCardStackAdapter(Context context) {
+	public CardAdapter(Context context) {
 		mContext = context;
 		mDataList = new ArrayList<>();
 	}

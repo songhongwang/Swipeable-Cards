@@ -27,12 +27,9 @@ import android.widget.ListAdapter;
 import com.andtinder.R;
 import com.andtinder.model.CardModel;
 
-import java.util.Random;
-
-public class CardContainer extends AdapterView<ListAdapter> {
+public class StackListView extends AdapterView<ListAdapter> {
     public static final int INVALID_POINTER_ID = -1;
     private int mActivePointerId = INVALID_POINTER_ID;
-    private static final double DISORDERED_MAX_ROTATION_RADIANS = Math.PI / 64;
     private final DataSetObserver mDataSetObserver = new DataSetObserver() {
         @Override
         public void onChanged() {
@@ -47,7 +44,6 @@ public class CardContainer extends AdapterView<ListAdapter> {
             clearStack();
         }
     };
-    private final Random mRandom = new Random();
     private final Rect boundsRect = new Rect();
     private final Rect childRect = new Rect();
     private final Matrix mMatrix = new Matrix();
@@ -69,7 +65,7 @@ public class CardContainer extends AdapterView<ListAdapter> {
     private int childMargin;
     private int ladder = 6; //每个子view的差值
 
-    public CardContainer(Context context) {
+    public StackListView(Context context) {
         super(context);
 
         setGravity(Gravity.CENTER);
@@ -77,13 +73,13 @@ public class CardContainer extends AdapterView<ListAdapter> {
 
     }
 
-    public CardContainer(Context context, AttributeSet attrs) {
+    public StackListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFromXml(attrs);
         init();
     }
 
-    public CardContainer(Context context, AttributeSet attrs, int defStyle) {
+    public StackListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initFromXml(attrs);
         init();
@@ -97,10 +93,10 @@ public class CardContainer extends AdapterView<ListAdapter> {
     }
 
     private void initFromXml(AttributeSet attr) {
-        TypedArray a = getContext().obtainStyledAttributes(attr, R.styleable.CardContainer);
+        TypedArray a = getContext().obtainStyledAttributes(attr, R.styleable.StackListView);
 
         setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
-        childMargin = a.getInteger(R.styleable.CardContainer_childMargin,40);
+        childMargin = a.getInteger(R.styleable.StackListView_childMargin,40);
 
         a.recycle();
     }
@@ -150,9 +146,9 @@ public class CardContainer extends AdapterView<ListAdapter> {
         mTopCard = null;
     }
 
-    private float getDisorderedRotation() {
-        return (float) Math.toDegrees(mRandom.nextGaussian() * DISORDERED_MAX_ROTATION_RADIANS);
-    }
+//    private float getDisorderedRotation() {
+//        return (float) Math.toDegrees(mRandom.nextGaussian() * DISORDERED_MAX_ROTATION_RADIANS);
+//    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
