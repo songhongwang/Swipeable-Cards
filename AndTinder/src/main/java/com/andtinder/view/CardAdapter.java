@@ -31,6 +31,13 @@ public class CardAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void pop(CardModel item) {
+		synchronized (mLock) {
+			mDataList.remove(item);
+		}
+		notifyDataSetChanged();
+	}
+
 
 	@Override
 	public Object getItem(int position) {
