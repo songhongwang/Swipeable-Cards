@@ -95,7 +95,7 @@ public class StackListView extends AdapterView<ListAdapter> {
     private void initFromXml(AttributeSet attr) {
         TypedArray a = getContext().obtainStyledAttributes(attr, R.styleable.StackListView);
 
-        setGravity(a.getInteger(R.styleable.CardContainer_android_gravity, Gravity.CENTER));
+        setGravity(a.getInteger(R.styleable.StackListView_android_gravity, Gravity.CENTER));
         childMargin = a.getInteger(R.styleable.StackListView_childMargin,40);
 
         a.recycle();
