@@ -58,7 +58,6 @@ public class StackListView extends AdapterView<ListAdapter> {
     private float mLastTouchY;
     private View mTopCard;
     private int mTouchSlop;
-    private int mGravity;
     private int mNextAdapterPosition;
     private boolean mDragging;
 
@@ -67,10 +66,7 @@ public class StackListView extends AdapterView<ListAdapter> {
 
     public StackListView(Context context) {
         super(context);
-
-        setGravity(Gravity.CENTER);
         init();
-
     }
 
     public StackListView(Context context, AttributeSet attrs) {
@@ -95,8 +91,7 @@ public class StackListView extends AdapterView<ListAdapter> {
     private void initFromXml(AttributeSet attr) {
         TypedArray a = getContext().obtainStyledAttributes(attr, R.styleable.StackListView);
 
-        setGravity(a.getInteger(R.styleable.StackListView_android_gravity, Gravity.CENTER));
-        childMargin = a.getInteger(R.styleable.StackListView_childMargin,40);
+        childMargin = a.getInteger(R.styleable.StackListView_childMargin, 40);
 
         a.recycle();
     }
@@ -131,8 +126,7 @@ public class StackListView extends AdapterView<ListAdapter> {
             View view = mListAdapter.getView(mNextAdapterPosition, null, this);
             view.setLayerType(LAYER_TYPE_SOFTWARE, null);
 
-            addViewInLayout(view, 0, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-                    mListAdapter.getItemViewType(mNextAdapterPosition)), false);
+            addViewInLayout(view, 0, new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT), false);
 
             requestLayout();
 
@@ -145,10 +139,6 @@ public class StackListView extends AdapterView<ListAdapter> {
         mNextAdapterPosition = 0;
         mTopCard = null;
     }
-
-//    private float getDisorderedRotation() {
-//        return (float) Math.toDegrees(mRandom.nextGaussian() * DISORDERED_MAX_ROTATION_RADIANS);
-//    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -185,9 +175,9 @@ public class StackListView extends AdapterView<ListAdapter> {
             w = view.getMeasuredWidth();
             h = view.getMeasuredHeight();
 
-            Gravity.apply(mGravity, w , h, boundsRect, childRect);
+            Gravity.apply(Gravity.CENTER, w , h, boundsRect, childRect);
             // 子view依次向下错位排列
-            view.layout(childRect.left, childRect.top +i*ladder, childRect.right, childRect.bottom +i*ladder);
+            view.layout(childRect.left, childRect.top + i * ladder, childRect.right, childRect.bottom + i * ladder);
         }
     }
 
@@ -338,42 +328,14 @@ public class StackListView extends AdapterView<ListAdapter> {
 
     @Override
     public View getSelectedView() {
+        // TODO: 获取选中的view
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void setSelection(int position) {
+        // TODO: 获取选中的view
         throw new UnsupportedOperationException();
-    }
-
-    public int getGravity() {
-        return mGravity;
-    }
-
-    public void setGravity(int gravity) {
-        mGravity = gravity;
-    }
-
-    public static class LayoutParams extends ViewGroup.LayoutParams {
-
-        int viewType;
-
-        public LayoutParams(Context c, AttributeSet attrs) {
-            super(c, attrs);
-        }
-
-        public LayoutParams(int width, int height) {
-            super(width, height);
-        }
-
-        public LayoutParams(ViewGroup.LayoutParams source) {
-            super(source);
-        }
-
-        public LayoutParams(int w, int h, int viewType) {
-            super(w, h);
-            this.viewType = viewType;
-        }
     }
 
     private class GestureListener extends SimpleOnGestureListener {
